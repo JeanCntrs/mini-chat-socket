@@ -8,6 +8,7 @@ const http = require('http');
 // Socket server configuration
 const socketio = require('socket.io');
 const path = require('path');
+const Sockets = require('./sockets');
 
 class Server {
     constructor() {
@@ -22,8 +23,8 @@ class Server {
         this.app.use(express.static(path.resolve(__dirname, '../public')))
     }
 
-    confSockets() {
-
+    configureSockets() {
+        new Sockets(this.io);
     }
 
     execute() {
@@ -31,7 +32,7 @@ class Server {
         this.middlewares();
 
         // Initialize sockets
-        this.confSockets();
+        this.configureSockets();
 
         // Initialize server
         this.server.listen(this.port, () => {
